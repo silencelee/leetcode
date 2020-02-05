@@ -124,9 +124,10 @@ public:
 
 class Solution {
 public:
-    int trap(vector<int>& height) 
+    int trap(vector<int>& height)
     {
-        if (height.empty()) return 0;
+        if (height.empty())
+            return 0;
 
         int res = 0;
         std::stack<int> st;
@@ -139,14 +140,15 @@ public:
             } else {
                 int t = st.top();
                 st.pop();
-                if (st.empty()) continue;
+                if (st.empty())
+                    continue;
 
                 int h = min(height[i], height[st.top()]) - height[t];
                 int len = i - st.top() - 1;
                 res += h * len;
             }
         }
-        
+
 
         return res;
 
@@ -154,4 +156,3 @@ public:
 };
 
 // @lc code=end
-
