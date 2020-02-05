@@ -149,9 +149,7 @@ public:
             }
         }
 
-
         return res;
-
     }
 };
 
