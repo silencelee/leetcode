@@ -50,6 +50,8 @@
  */
 
 // @lc code=start
+
+/*
 class Solution {
 public:
     int peakIndexInMountainArray(vector<int>& A)
@@ -63,4 +65,27 @@ public:
         return -1;
     }
 };
+*/
+
+// bsearch
+class Solution {
+public:
+    int peakIndexInMountainArray(vector<int>& A)
+    {
+        int l = 0;
+        int r = A.size() - 1;
+
+        while (l < r) {
+            int mid = (l + r) >> 1;
+            if (A[mid] > A[mid + 1]) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+
+        return l;
+    }
+};
+
 // @lc code=end
