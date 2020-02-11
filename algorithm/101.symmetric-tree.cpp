@@ -55,6 +55,8 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+
+/* recursively
 class Solution {
 public:
     bool isSymmetric(TreeNode* left, TreeNode* right)
@@ -73,6 +75,47 @@ public:
             return true;
 
         return isSymmetric(root->left, root->right);
+    }
+};
+*/
+
+// inorder travel
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root)
+    {
+        if (root == nullptr)
+            return true;
+
+        stack<TreeNode*> st_left;
+        stack<TreeNode*> st_right;
+
+        auto p = root->left;
+        auto q = root->right;
+
+        while (!st_left.empty() || p != nullptr || !st_right.empty() || q != nullptr) {
+            while (p != nullptr && q != nullptr) {
+                st_left.emplace(p);
+                p = p->left;
+
+                st_right.emplace(q);
+                q = q->right;
+            }
+
+            if (p != nullptr || q != nullptr) return false;
+
+            p = st_left.top();
+            st_left.pop();
+
+            q = st_right.top();
+            st_right.pop();
+
+            if (p->val != q->val) return false;
+            p = p->right;
+            q = q->left;
+        }
+
+        return true;
     }
 };
 // @lc code=end
