@@ -42,22 +42,58 @@
  */
 
 // @lc code=start
+/*
 class Solution {
 public:
-    int partition(vector<int>& nums, int left, int right, int pivot)
+    int partition(vector<int>& nums, int l, int r, int pivot)
     {
-         int pos = left;
-         for (int i = left; i < right; ++i) {
-             if (nums[i] == pivot) swap(nums[i], nums[pos++]);
-         }
-
-         return pos;
+        int pos = l - 1;
+        for (int i = l; i <= r; ++i) {
+            if (nums[i] == pivot) swap(nums[++pos], nums[i]);
+        }
+        return ++pos;
     }
 
     void sortColors(vector<int>& nums) {
         if (nums.size() <= 1) return;
-        int index = partition(nums, 0, nums.size(), 0);
-        partition(nums, index, nums.size(), 1);
+        int index = partition(nums, 0, nums.size() - 1, 0);
+        partition(nums, index, nums.size() - 1, 1);
+    }
+};
+*/
+
+/*
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        if (nums.size() <= 1) return;
+
+        int pos_0 = -1;
+        int pos_2 = nums.size();
+
+        for (int i = 0; i < pos_2; ++i) {
+            if (nums[i] == 0) swap(nums[++pos_0], nums[i]);
+            if (nums[i] == 2) {
+                swap(nums[--pos_2], nums[i]);
+                --i;
+            }
+        }
+    }
+};
+*/
+
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        if (nums.size() <= 1) return;
+
+        int pos_0 = -1;
+        int pos_2 = nums.size();
+
+        for (int i = 0; i < pos_2; ++i) {
+            while (nums[i] == 2 && i < pos_2) swap(nums[--pos_2], nums[i]);
+            if (nums[i] == 0) swap(nums[++pos_0], nums[i]);
+        }
     }
 };
 // @lc code=end
