@@ -56,6 +56,8 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+
+/* level traverse
 class Codec {
 public:
 
@@ -121,6 +123,49 @@ public:
             }
         }
 
+        return root; 
+    }
+};
+*/
+
+class Codec {
+public:
+    void serialize(TreeNode* root, ostringstream& os) 
+    {
+        if (root != nullptr) {
+            os << root->val << " ";
+            serialize(root->left, os);
+            serialize(root->right, os);
+        } else {
+            os << "# ";
+        }
+    }
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        ostringstream os;
+        serialize(root, os);
+        return os.str();
+    }
+
+    TreeNode* deserialize(istringstream& is)
+    {
+        string val;
+        is >> val;
+
+        TreeNode* root = nullptr;
+        if (val != "#") {
+            root = new TreeNode(stoi(val));
+            root->left = deserialize(is);
+            root->right = deserialize(is);
+        }
+
+        return root;
+    }
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        istringstream is(data);
+        TreeNode* root = deserialize(is);
         return root; 
     }
 };
