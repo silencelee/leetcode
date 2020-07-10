@@ -37,6 +37,7 @@
  */
 
 // @lc code=start
+/*
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
@@ -56,6 +57,39 @@ public:
             res = max(res, n);
         }
         return res;
+    }
+};
+*/
+
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        if (nums.empty()) return 0;
+
+        int n = nums.size();
+        vector<int> lis_min(n + 1, 0);
+        lis_min[0] = INT_MIN;
+
+        int len = 0;
+        for (int i = 0; i < n; ++i) {
+            int l = 0;
+            int r = len;
+
+            while (l < r) {
+                int mid = l + r + 1 >> 1;
+                if (lis_min[mid] < nums[i]) {
+                    l = mid;
+                } else {
+                    r = mid - 1;
+                }
+
+            }
+            
+            len = max(len, r + 1);
+            lis_min[r + 1] = nums[i];
+        }
+
+        return len;
     }
 };
 // @lc code=end
