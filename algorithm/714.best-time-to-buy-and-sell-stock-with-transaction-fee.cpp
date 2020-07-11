@@ -40,23 +40,46 @@
  */
 
 // @lc code=start
+
+/*
 class Solution {
 public:
     int maxProfit(vector<int>& prices, int fee) {
         int n = prices.size();
         if (n == 0) return 0;
 
-        vector<int> f(n + 1, 0);
-        vector<int> g(n + 1, 0);
-        g[0] = -1000000000;
+        vector<int> f(n, 0);
+        vector<int> g(n, 0);
+        g[0] = -prices[0];
 
-        for (int i = 1; i <= n; ++i) {
-            f[i] = max(f[i - 1], g[i - 1] + prices[i - 1] - fee);
-            g[i] = max(g[i - 1], f[i - 1] - prices[i - 1]);
+        for (int i = 1; i < n; ++i) {
+            f[i] = max(f[i - 1], g[i - 1] + prices[i] - fee);
+            g[i] = max(g[i - 1], f[i - 1] - prices[i]);
         }
 
-        return f[n];
+        return f[n - 1];
     }
 };
+*/
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices, int fee) {
+        int n = prices.size();
+        if (n == 0) return 0;
+
+        int f = 0;        
+        int g = -prices[0];
+
+        for (int i = 1; i < n; ++i) {
+            int t = f;
+            f = max(f, g + prices[i] - fee);
+            g = max(g, t - prices[i]);
+        }
+
+        return f;
+    }
+};
+
 // @lc code=end
 
