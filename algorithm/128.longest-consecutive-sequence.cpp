@@ -36,22 +36,12 @@ public:
         unordered_set<int> hash(nums.begin(), nums.end());
 
         int res = 0;
-        for (auto i: nums) {
-            if (hash.count(i) == 0) continue;
-
-            int pre = i - 1;
-            while (hash.count(pre) > 0) {
-                hash.erase(pre);
-                --pre;
+        for (auto i: hash) {
+            if (hash.count(i - 1) == 0) {
+                int end = i + 1;
+                while (hash.count(end) > 0) ++end;
+                res = max(res, end - i);
             }
-
-            int next = i + 1;
-            while (hash.count(next) > 0) {
-                hash.erase(next);
-                ++next;
-            }
-
-            res = max(res, next - pre - 1);
         }
 
         return res;
