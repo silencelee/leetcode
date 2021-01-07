@@ -109,6 +109,7 @@ public:
 };
 */
 
+/*
 // sliding window optimized
 class Solution {
 public:
@@ -128,6 +129,26 @@ public:
         return res;
     }
 };
+*/
 
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        unordered_map<char, int> ht;
+        int res = 0;
+        for (int i = 0, j = 0; i < s.size(); ++i) {
+            ++ht[s[i]];
+
+            while (ht[s[i]] > 1) {
+                --ht[s[j]];
+                ++j;
+            }
+
+            res = max(res, i - j + 1);
+        }
+
+        return res;
+    }
+};
 // @lc code=end
 
