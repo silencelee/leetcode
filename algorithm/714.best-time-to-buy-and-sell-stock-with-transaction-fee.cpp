@@ -68,16 +68,16 @@ public:
         int n = prices.size();
         if (n == 0) return 0;
 
-        int f = 0;        
-        int g = -prices[0];
+        const int INF = 0x3f3f3f3f;
+        vector<vector<int>> f(n + 1, vector<int>(2, -INF));
+        f[0][0] = 0;
 
-        for (int i = 1; i < n; ++i) {
-            int t = f;
-            f = max(f, g + prices[i] - fee);
-            g = max(g, t - prices[i]);
+        for (int i = 1; i <= n; ++i) {
+            f[i][0] = max(f[i - 1][0], f[i - 1][1] + prices[i - 1] - fee);
+            f[i][1] = max(f[i - 1][1], f[i - 1][0] - prices[i - 1]);
         }
 
-        return f;
+        return f[n][0];
     }
 };
 
