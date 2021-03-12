@@ -61,24 +61,18 @@ public:
         int n = prices.size();
         if (n == 0) return 0;
 
-        vector<int> f(n, 0);
-        int pre_min = prices[0];
-        for (int i = 1; i < n; ++i) {
-            pre_min = min(pre_min, prices[i]);
-            f[i] = max(f[i - 1], prices[i] - pre_min);
+        vector<int> f(n + 1, 0);
+        int min_p = INT_MAX;
+        for (int i = 1; i <= n; ++i) {
+            min_p = min(min_p, prices[i - 1]);
+            f[i] = max(f[i - 1], prices[i - 1] - min_p);
         }
 
-        vector<int> g(n, 0);
-        int pre_high = prices[n - 1];
-
-        for (int i = n - 2; i >= 0; --i) {
-            pre_high = max(pre_high, prices[i]);
-            g[i] = max(g[i + 1], pre_high - prices[i]);
-        }
-
+        int max_p = INT_MIN;
         int res = 0;
-        for (int i = 0; i < n; ++i) {
-            res = max(res, f[i] + g[i]);
+        for (int i = n; i > 0; --i) {
+            max_p = max(max_p, prices[i - 1]);
+            res = max(res, max_p - prices[i - 1] + f[i - 1]);
         }
 
         return res;     
